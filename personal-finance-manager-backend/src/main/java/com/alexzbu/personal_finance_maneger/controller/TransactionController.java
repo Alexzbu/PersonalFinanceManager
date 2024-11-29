@@ -24,7 +24,7 @@ public class TransactionController {
         return service.save(transaction);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void deleteTransaction(@PathVariable Long id){
         service.delete(id);
     }
