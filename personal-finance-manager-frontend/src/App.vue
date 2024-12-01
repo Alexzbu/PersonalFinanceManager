@@ -1,31 +1,31 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/add-transaction">Add Transaction</router-link>
-      <router-link to="/budget-planner">Budget Planner</router-link>
-      <router-link to="/transaction-list">Transaction List</router-link>
-      <router-link to="/budget-list">Budget List</router-link>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/transactions">Transactions</router-link> |
+      <router-link to="/budget">Budget Planner</router-link>
     </nav>
-    <router-view />
+    <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
 };
 </script>
 
 <style>
 nav {
-  background-color: #333;
-  padding: 10px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  margin-bottom: 20px;
 }
 
 nav a {
-  color: #fff;
-  margin: 0 10px;
+  margin-right: 15px;
   text-decoration: none;
+  color: #007bff;
 }
 
 nav a:hover {

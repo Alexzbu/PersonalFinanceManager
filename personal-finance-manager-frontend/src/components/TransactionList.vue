@@ -1,46 +1,58 @@
 <template>
-  <div>
-    <h2>Transactions</h2>
+  <div class="container">
+    <h1>Transaction List</h1>
     <ul class="transaction-list">
       <li v-for="transaction in transactions" :key="transaction.id" class="transaction-item">
-        {{ transaction.type }} - {{ transaction.amount }} - {{ transaction.category }}
-        <button @click="deleteTransaction(transaction.id)">Delete</button>
+        {{ transaction.description }} - {{ transaction.amount }}
+        <button @click="$emit('remove-transaction-item', transaction.id)" class="button-remove">Remove</button>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-  data() {
-    return {
-      transactions: []
-    };
-  },
-  methods: {
-    fetchTransactions() {
-      axios.get('http://localhost:8080/api/transactions')
-        .then(response => {
-          this.transactions = response.data;
-        })
-        .catch(error => {
-          console.error('There was an error fetching the transactions!', error);
-        });
-    },
-    deleteTransaction(id) {
-      axios.delete(`http://localhost:8080/api/transactions/${id}`)
-        .then(() => {
-          this.fetchTransactions();
-        })
-        .catch(error => {
-          console.error('There was an error deleting the transaction!', error);
-        });
-    }
-  },
+  name: 'TransactionList',
+  props: ['transactions'],
   created() {
-    this.fetchTransactions();
+    this.$emit('fetch-transactions');
   }
 };
 </script>
+
+<style scoped>
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  color: #444;
+}
+
+.transaction-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.transaction-item {
+  display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.button-remove {
+  background-color: #ff4d4d;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.button-remove:hover {
+  background-color: #cc0000;
+}
+</style>

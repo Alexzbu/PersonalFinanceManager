@@ -1,35 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AddTransaction from '@/views/AddTransaction.vue';
+import HomeView from '@/views/Home.vue';
+import TransactionsView from '@/views/Transactions.vue';
 import BudgetPlanner from '@/views/BudgetPlanner.vue';
-import TransactionList from '@/views/TransactionList.vue';
-import BudgetList from '@/views/BudgetList.vue';
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    redirect: '/add-transaction'
-  },
-  {
-    path: '/add-transaction',
-    name: 'AddTransaction',
-    component: AddTransaction
-  },
-  {
-    path: '/budget-planner',
-    name: 'BudgetPlanner',
-    component: BudgetPlanner
-  },
-  {
-    path: '/transaction-list',
-    name: 'TransactionList',
-    component: TransactionList
-  },
-  {
-    path: '/budget-list',
-    name: 'BudgetList',
-    component: BudgetList
-  }
+  { path: '/', name: 'Home', component: HomeView },
+  { path: '/transactions', name: 'Transactions', component: TransactionsView },
+  { path: '/budget', name: 'BudgetPlanner', component: BudgetPlanner }
 ];
 
 const router = createRouter({

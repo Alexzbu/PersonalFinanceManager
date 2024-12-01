@@ -8,11 +8,11 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Transaction {
+public class BudgetPlanner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
     private Double amount;
-    private String  description;
 }
