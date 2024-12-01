@@ -77,6 +77,10 @@ export default {
       });
     },
   },
+  created() {
+    this.fetchBudgetItems();
+    this.fetchTransactions()
+  }
 };
 </script>
 
