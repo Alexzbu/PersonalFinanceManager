@@ -2,12 +2,22 @@
   <div class="home">
     <h1>Welcome to the Personal Finance Manager</h1>
     <p>This application helps you manage your personal finances by tracking transactions and planning budgets.</p>
+    <button @click="goToLogin">Login</button>
+    <button @click="goToRegister">Register</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HomeView'
+  name: 'HomeView',
+  methods: {
+      goToLogin() {
+        this.$router.push('/login');
+      },
+      goToRegister() {
+        this.$router.push('/register');
+      }
+  }
 };
 </script>
 
