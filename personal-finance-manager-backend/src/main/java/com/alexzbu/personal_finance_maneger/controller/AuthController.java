@@ -1,6 +1,8 @@
 package com.alexzbu.personal_finance_maneger.controller;
 
+import com.alexzbu.personal_finance_maneger.model.ErrorResponse;
 import com.alexzbu.personal_finance_maneger.model.User;
+import com.alexzbu.personal_finance_maneger.repository.UserRepository;
 import com.alexzbu.personal_finance_maneger.security.JwtResponse;
 import com.alexzbu.personal_finance_maneger.security.JwtTokenUtil;
 import com.alexzbu.personal_finance_maneger.service.CustomUserDetailsService;
@@ -30,26 +32,50 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
+        String emailPattern = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
+
+        if (!user.getUsername().matches(emailPattern)) {
+            return ResponseEntity.badRequest().body(new ErrorResponse("Invalid email format"));
+        }
+
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            return ResponseEntity.badRequest().body(new ErrorResponse("Password is required"));
+        }
+
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
             final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
             final String jwt = jwtTokenUtil.generateToken(userDetails);
             return ResponseEntity.ok(new JwtResponse(jwt));
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("Invalid username or password"));
         }
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
-        System.out.println("Iqqqqqqqqq");
+        String emailPattern = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
+        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+
+        if (!user.getUsername().matches(emailPattern)) {
+            return ResponseEntity.badRequest().body(new ErrorResponse("Invalid email format"));
+        }
+
+        if (!user.getPassword().matches(passwordPattern)) {
+            return ResponseEntity.badRequest().body(new ErrorResponse("Password must be at least 8 characters long and contain at least one letter and one number"));
+        }
+
         if (userDetailsService.userExists(user.getUsername())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+            return ResponseEntity.badRequest().body(new ErrorResponse("Username is already taken"));
         }
 
         userDetailsService.save(user);
+        System.out.println(userRepository.findAll());
         return ResponseEntity.ok("User registered successfully");
     }
 }
