@@ -20,8 +20,18 @@ public class AuthController {
     private UserRepository userRepository;
 
     @GetMapping("/login")
-    public ResponseEntity<?> login(Authentication authentication) {
-        return ResponseEntity.ok().body("User logged in successfully");
+    public ResponseEntity<?> login(@RequestParam(value = "error", required = false) String error,  Authentication authentication) {
+        if(error != null) {
+            return ResponseEntity.badRequest().body(new ErrorResponse("incorrect login or password"));
+        }else {
+            return ResponseEntity.ok().body("User logged in successfully");
+        }
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(Authentication authentication) {
+
+        return ResponseEntity.ok().body("User logged out successfully");
     }
 
     @PostMapping("/register")
@@ -42,7 +52,6 @@ public class AuthController {
         }
 
         userDetailsService.save(user);
-        System.out.println(userRepository.findAll());
         return ResponseEntity.ok("User registered successfully");
     }
 }

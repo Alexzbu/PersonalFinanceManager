@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     fetchBudgetItems() {
-       apiClient.get('/budget')
+       apiClient.get('/api/budget')
        .then(response => {
            this.budgetItems = response.data;
        })
@@ -50,7 +50,7 @@ export default {
        });
     },
     fetchTransactions() {
-       apiClient.get('/transactions')
+       apiClient.get('/api/transactions')
        .then(response => {
           this.transactions = response.data;
        })
@@ -59,7 +59,7 @@ export default {
        });
     },
     addBudgetItem(item) {
-       apiClient.post('/budget', item)
+       apiClient.post('/api/budget', item)
        .then(() => {
           this.fetchBudgetItems();
        })
@@ -68,7 +68,7 @@ export default {
        });
     },
     removeBudgetItem(id) {
-      apiClient.delete(`/budget/${id}`)
+      apiClient.delete(`/api/budget/${id}`)
       .then(() => {
          this.fetchBudgetItems();
             })

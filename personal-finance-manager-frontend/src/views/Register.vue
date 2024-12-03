@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import apiServer from '@/api/index.js';
 
 export default {
   name: 'RegisterView',
@@ -83,7 +83,7 @@ export default {
       }
 
       try {
-        const response = await axios.post('http://localhost:8080/api/auth/register', {
+        const response = await apiServer.post('/api/auth/register', {
           username: this.username,
           password: this.password,
         });

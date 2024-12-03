@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     addTransaction(transaction) {
-      apiClient.post('/transactions', transaction)
+      apiClient.post('/api/transactions', transaction)
         .then(() => {
           this.fetchTransactions();
         })
@@ -33,7 +33,7 @@ export default {
         });
     },
     fetchTransactions() {
-      apiClient.get('/transactions')
+      apiClient.get('/api/transactions')
         .then(response => {
           this.transactions = response.data;
         })
@@ -42,7 +42,7 @@ export default {
         });
     },
     removeTransactionItem(id){
-          apiClient.delete(`/transactions/${id}`)
+          apiClient.delete(`/api/transactions/${id}`)
             .then(() => {
               this.fetchTransactions();
              })

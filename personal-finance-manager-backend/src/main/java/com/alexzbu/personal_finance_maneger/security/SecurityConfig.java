@@ -1,5 +1,6 @@
 package com.alexzbu.personal_finance_maneger.security;
 
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,23 +16,31 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/api/auth/*", "/login").permitAll() // Відкриті сторінки
-                        .anyRequest().authenticated() // Усі інші запити вимагають автентифікації
+                        .requestMatchers("/api/auth/*", "/login").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") // Кастомна сторінка входу
-                        .defaultSuccessUrl("/api/auth/login", true) // Успішний вхід
-                        .failureUrl("/login?error=true") // Невдалий вхід
-                        .permitAll() // Дозволити доступ до сторінки входу
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/api/auth/login", true)
+                        .failureUrl("/api/auth/login?error=true")
+                        .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login?logout=true") // Успішний вихід
+                        .logoutSuccessUrl("/api/auth/logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
-                        .permitAll() // Дозволити вихід із системи
+                        .permitAll()
                 );
         return http.build();
+    }
+
+    @Bean
+    public ServletContextInitializer servletContextInitializer() {
+        return servletContext -> {
+            servletContext.getSessionCookieConfig().setMaxAge(30*60);
+            servletContext.getSessionCookieConfig().setHttpOnly(false);
+        };
     }
 
     @Bean

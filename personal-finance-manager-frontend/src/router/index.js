@@ -4,6 +4,7 @@ import TransactionsView from '@/views/Transactions.vue';
 import BudgetPlanner from '@/views/BudgetPlanner.vue';
 import RegisterView from '@/views/Register.vue';
 import LoginView from '@/views/Login.vue';
+import Cookies from 'js-cookie';
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
@@ -20,7 +21,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loggedIn = localStorage.getItem('JSESSIONID');
+  const loggedIn = Cookies.get('JSESSIONID');
 
   if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
     next('/login');
