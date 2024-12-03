@@ -65,20 +65,22 @@ export default {
       }
 
       try {
-        const response = await axios.post('http://localhost:8080/api/auth/login', {
-          username: this.username,
-          password: this.password,
-        });
-        console.log('User logged in successfully:', response.data);
-        this.serverError = '';
-      } catch (error) {
-        if (error.response && error.response.data) {
-          this.serverError = error.response.data.message;
-        } else {
-          this.serverError = 'An error occurred. Please try again.';
-        }
-        console.error('Error logging in user:', error);
-      }
+              const response = await axios.post('http://localhost:8080/login', new URLSearchParams({
+                  username: this.username,
+                  password: this.password
+              }), {
+                  headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded'
+                  },
+                  withCredentials: true // Це дозволяє включити cookies в запит
+              });
+
+              console.log('User logged in successfully:', response.data);
+              localStorage.setItem('JSESSIONID', response.headers['set-cookie']);
+              this.$router.push('/');
+          } catch (error) {
+              console.error('Error logging in user:', error.response ? error.response.data : error.message);
+          }
     }
   }
 };

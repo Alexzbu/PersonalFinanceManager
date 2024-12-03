@@ -20,7 +20,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loggedIn = localStorage.getItem('jwt');
+  const loggedIn = localStorage.getItem('JSESSIONID');
 
   if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
     next('/login');
