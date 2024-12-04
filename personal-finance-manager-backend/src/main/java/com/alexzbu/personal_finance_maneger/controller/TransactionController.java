@@ -12,20 +12,20 @@ import java.util.List;
 public class TransactionController {
 
     @Autowired
-    private TransactionService service;
+    private TransactionService transactionService;
 
     @GetMapping
-    public List<Transaction> getAllTransactions(){
-        return service.findAll();
+    public List<Transaction> getUserTransactions() {
+        return transactionService.getUserTransactions();
     }
 
     @PostMapping
-    public Transaction createTransaction(@RequestBody Transaction transaction){
-        return service.save(transaction);
+    public void addTransaction(@RequestBody Transaction transaction) {
+        transactionService.addTransaction(transaction);
     }
 
     @DeleteMapping("/{id}")
     public void deleteTransaction(@PathVariable Long id){
-        service.delete(id);
+        transactionService.delete(id);
     }
 }

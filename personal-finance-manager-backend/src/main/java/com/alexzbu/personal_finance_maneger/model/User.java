@@ -3,6 +3,7 @@ package com.alexzbu.personal_finance_maneger.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,9 +22,9 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<BudgetPlanner> budgets;
+    private List<BudgetPlanner> budgets = new ArrayList<>();
 
 }

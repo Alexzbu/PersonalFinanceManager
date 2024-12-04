@@ -36,6 +36,7 @@ export default {
       apiClient.get('/api/transactions')
         .then(response => {
           this.transactions = response.data;
+          console.log(response.data);
         })
         .catch(error => {
           console.error('Error fetching transactions:', error);

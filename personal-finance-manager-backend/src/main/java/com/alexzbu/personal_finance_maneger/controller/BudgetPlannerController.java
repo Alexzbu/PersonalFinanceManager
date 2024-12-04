@@ -12,20 +12,20 @@ import java.util.List;
 public class BudgetPlannerController {
 
     @Autowired
-    private BudgetPlannerService service;
+    private BudgetPlannerService budgetPlannerService;
 
     @GetMapping
-    public List<BudgetPlanner> getAllBudgets(){
-        return service.findAll();
+    public List<BudgetPlanner> getUserBudgets() {
+        return budgetPlannerService.getUserBudgets();
     }
 
     @PostMapping
-    public BudgetPlanner createBudgetPlanner(@RequestBody BudgetPlanner budgetPlanner){
-        return service.save(budgetPlanner);
+    public void addBudget(@RequestBody BudgetPlanner budgetPlanner) {
+        budgetPlannerService.addBudget(budgetPlanner);
     }
 
     @DeleteMapping("/{id}")
     public void deleteBudgetPlanner(@PathVariable Long id){
-        service.delete(id);
+        budgetPlannerService.delete(id);
     }
 }
