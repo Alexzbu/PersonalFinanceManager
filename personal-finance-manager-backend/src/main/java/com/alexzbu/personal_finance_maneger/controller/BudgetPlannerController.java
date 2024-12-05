@@ -1,5 +1,6 @@
 package com.alexzbu.personal_finance_maneger.controller;
 
+import com.alexzbu.personal_finance_maneger.DTO.BudgetPlannerReadDto;
 import com.alexzbu.personal_finance_maneger.model.BudgetPlanner;
 import com.alexzbu.personal_finance_maneger.service.BudgetPlannerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class BudgetPlannerController {
     private BudgetPlannerService budgetPlannerService;
 
     @GetMapping
-    public List<BudgetPlanner> getUserBudgets() {
+    public List<BudgetPlannerReadDto> getUserBudgets() {
         return budgetPlannerService.getUserBudgets();
     }
 

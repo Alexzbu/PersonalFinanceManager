@@ -1,5 +1,6 @@
 package com.alexzbu.personal_finance_maneger.controller;
 
+import com.alexzbu.personal_finance_maneger.DTO.TransactionReadDto;
 import com.alexzbu.personal_finance_maneger.model.Transaction;
 import com.alexzbu.personal_finance_maneger.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @GetMapping
-    public List<Transaction> getUserTransactions() {
+    public List<TransactionReadDto> getUserTransactions() {
         return transactionService.getUserTransactions();
     }
 

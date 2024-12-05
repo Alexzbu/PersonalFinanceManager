@@ -1,5 +1,7 @@
 package com.alexzbu.personal_finance_maneger.service;
 
+import com.alexzbu.personal_finance_maneger.DTO.TransactionReadDto;
+import com.alexzbu.personal_finance_maneger.mapper.TransactionReadMapper;
 import com.alexzbu.personal_finance_maneger.model.Transaction;
 import com.alexzbu.personal_finance_maneger.model.User;
 import com.alexzbu.personal_finance_maneger.repository.TransactionRepository;
@@ -16,14 +18,18 @@ public class TransactionService {
 
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    private TransactionReadMapper transactionReadMapper;
 
     @Autowired
     private UserRepository userRepository;
 
-    public List<Transaction> getUserTransactions() {
+
+    public List<TransactionReadDto> getUserTransactions() {
         String username = getCurrentUsername();
         User user = userRepository.findByUsername(username);
-        return transactionRepository.findByUser(user);
+        return transactionRepository.findByUser(user).stream()
+                .map(transactionReadMapper::map).toList();
     }
 
     public void addTransaction(Transaction transaction) {

@@ -1,5 +1,7 @@
 package com.alexzbu.personal_finance_maneger.service;
 
+import com.alexzbu.personal_finance_maneger.DTO.BudgetPlannerReadDto;
+import com.alexzbu.personal_finance_maneger.mapper.BudgetPlannerReadMapper;
 import com.alexzbu.personal_finance_maneger.model.BudgetPlanner;
 import com.alexzbu.personal_finance_maneger.model.User;
 import com.alexzbu.personal_finance_maneger.repository.BudgetPlannerRepository;
@@ -16,14 +18,17 @@ public class BudgetPlannerService {
 
     @Autowired
     private BudgetPlannerRepository budgetPlannerRepository;
+    @Autowired
+    private BudgetPlannerReadMapper budgetPlannerReadMapper;
 
     @Autowired
     private UserRepository userRepository;
 
-    public List<BudgetPlanner> getUserBudgets() {
+    public List<BudgetPlannerReadDto> getUserBudgets() {
         String username = getCurrentUsername();
         User user = userRepository.findByUsername(username);
-        return budgetPlannerRepository.findByUser(user);
+        return budgetPlannerRepository.findByUser(user).stream()
+                .map(budgetPlannerReadMapper::map).toList();
     }
 
     public void addBudget(BudgetPlanner budgetPlanner) {
